@@ -1,0 +1,36 @@
+# Virtual env and Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Course index folders (generated per-course at root)
+# Uncomment specific courses to ignore them, or use a wildcard:
+# SEC*/
+# FOR*/
+# ICS*/
+# LDR*/
+# AIS*/
+
+# Generated output files
+*.pdf
+*.tex
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude
+.claude/

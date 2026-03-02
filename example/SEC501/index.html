@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEC501 — Advanced Security Essentials - Enterprise Defender</title>
+  <style>
+    :root {
+      --ink: #1e293b;
+      --muted: #64748b;
+      --accent: #0d47a1;
+      --accent-soft: #e8eef6;
+      --border: #e2e8f0;
+      --bg: #fafbfc;
+      --card: #ffffff;
+      --zebra: #f5f7fa;
+      --leader-dot: #c0c8d4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      color: var(--ink);
+      margin: 0;
+      padding: 0.5in;
+      font-size: 12px;
+      line-height: 1.4;
+      max-width: 100%;
+      background: var(--bg);
+    }
+    .page-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 0.15rem 0;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      text-align: center;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .summary-line {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin: 0.1rem 0 0.5rem 0;
+      letter-spacing: 0.01em;
+    }
+    /* --- Alphabetical letter dividers --- */
+    .letter-divider {
+      break-inside: avoid;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0 0.15rem 0.2rem;
+      margin-top: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cols {
+      column-count: 2;
+      column-gap: 1.5rem;
+      column-fill: balance;
+      margin-top: 0.5rem;
+    }
+    .topic {
+      break-inside: avoid;
+      margin-bottom: 0.5rem;
+      padding: 0.35rem 0.5rem 0.3rem 0.6rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    /* --- Enhanced topic head --- */
+    .topic-head {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      line-height: 1.3;
+      background: var(--accent-soft);
+      margin: -0.35rem -0.5rem 0.2rem -0.6rem;
+      padding: 0.35rem 0.5rem 0.25rem 0.6rem;
+      border-radius: 0 3px 0 0;
+    }
+    /* Dot leader shared pattern (flex row with overflow dots) */
+    .topic-head .sub,
+    .topic li .sub {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .topic-head .sub::after,
+    .topic li .sub::after {
+      content: " ........................................................................................................";
+      color: var(--leader-dot);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      font-size: 0.65rem;
+    }
+    .topic-head .ref,
+    .topic li .ref {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .topic ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 0.2rem;
+      margin-top: 0.2rem;
+    }
+    .topic li {
+      font-size: 0.8rem;
+      margin: 0;
+      padding: 0.15rem 0.15rem 0.1rem 0.15rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      line-height: 1.4;
+      color: var(--ink);
+      border-bottom: 1px solid transparent;
+      border-radius: 2px;
+    }
+    /* Alternating row shading on subtopics */
+    .topic li:nth-child(even) {
+      background: var(--zebra);
+    }
+    .topic li:hover { background: var(--accent-soft); }
+    .topic li:last-child { border-bottom: none; }
+    .ref {
+      font-size: 0.7rem;
+      color: var(--muted);
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+      min-width: 3.8em;
+      text-align: right;
+      font-weight: 500;
+      padding-left: 0.2rem;
+    }
+    .topic-head .ref {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    @media print {
+      body { padding: 0.4in; background: #fff; font-size: 11px; }
+      .page-title { border-bottom-color: #ccc; }
+      .summary-line { color: #888; }
+      .letter-divider { color: #888; border-bottom-color: #ccc; }
+      .cols { column-gap: 1rem; margin-top: 0.3rem; }
+      .topic {
+        margin-bottom: 0.35rem;
+        padding: 0.25rem 0.4rem 0.2rem 0.5rem;
+        box-shadow: none;
+        border: 1px solid #e0e0e0;
+      }
+      .topic-head {
+        background: #f0f4f8;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      /* Preserve alternating shading in print */
+      .topic li:nth-child(even) {
+        background: #f5f7fa;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      /* Preserve dot leaders in print */
+      .topic-head .sub::after,
+      .topic li .sub::after {
+        color: #c0c0c0;
+      }
+      .topic li:hover { background: transparent; }
+    }
+    .footer {
+      margin-top: 1.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    @media print { .footer { margin-top: 1rem; font-size: 0.65rem; } }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">SEC501 — Advanced Security Essentials - Enterprise Defender</h1>
+  <p class="summary-line">100 topics indexed</p>
+  <div class="cols">
+<div class="letter-divider" aria-label="Section A">A</div>
+<section class="topic"><div class="topic-head"><span class="sub">Access Control</span><span class="ref">1 - 335</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Active Directory</span><span class="ref">4 - 95</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Anomaly Detection</span><span class="ref">2 - 205</span></div><ul><li><span class="sub">Jump List</span> <span class="ref">5 - 168</span></li><li><span class="sub">Process Injection</span> <span class="ref">4 - 64</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Anti-Forensics</span><span class="ref">6 - 26</span></div><ul><li><span class="sub">Concept 47</span> <span class="ref">4 - 65</span></li><li><span class="sub">Concept 79</span> <span class="ref">4 - 124</span></li><li><span class="sub">Social Engineering</span> <span class="ref">2 - 161</span></li><li><span class="sub">Windows Artifacts</span> <span class="ref">5 - 259</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">APT</span><span class="ref">4 - 387</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Asymmetric Encryption</span><span class="ref">4 - 73</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Audit Log</span><span class="ref">3 - 28</span></div><ul><li><span class="sub">Concept 65</span> <span class="ref">5 - 10</span></li><li><span class="sub">Concept 78</span> <span class="ref">4 - 166</span></li><li><span class="sub">Defense in Depth</span> <span class="ref">3 - 6</span></li><li><span class="sub">XML</span> <span class="ref">6 - 357</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Authentication</span><span class="ref">6 - 51</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Authorization</span><span class="ref">2 - 29</span></div></section>
+<div class="letter-divider" aria-label="Section B">B</div>
+<section class="topic"><div class="topic-head"><span class="sub">Backup and Recovery</span><span class="ref">5 - 289</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Banner Grabbing</span><span class="ref">1 - 134</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Binary Analysis</span><span class="ref">5 - 352</span></div><ul><li><span class="sub">Concept 21</span> <span class="ref">4 - 51</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Browser Forensics</span><span class="ref">1 - 233</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Brute Force</span><span class="ref">1 - 151</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Buffer Overflow</span><span class="ref">2 - 162</span></div><ul><li><span class="sub">Concept 28</span> <span class="ref">6 - 263</span></li><li><span class="sub">Concept 69</span> <span class="ref">6 - 246</span></li><li><span class="sub">Concept 97</span> <span class="ref">3 - 56</span></li><li><span class="sub">Lateral Movement</span> <span class="ref">5 - 172</span></li></ul></section>
+<div class="letter-divider" aria-label="Section C">C</div>
+<section class="topic"><div class="topic-head"><span class="sub">Certificate Pinning</span><span class="ref">2 - 247</span></div><ul><li><span class="sub">Concept 98</span> <span class="ref">3 - 255</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Chain of Custody</span><span class="ref">2 - 205</span></div><ul><li><span class="sub">Container Security</span> <span class="ref">6 - 253</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Checksum</span><span class="ref">6 - 316</span></div><ul><li><span class="sub">Symmetric Encryption</span> <span class="ref">1 - 50</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Cloud Security</span><span class="ref">6 - 156</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Code Signing</span><span class="ref">1 - 236</span></div><ul><li><span class="sub">Concept 23</span> <span class="ref">1 - 4</span></li><li><span class="sub">Concept 87</span> <span class="ref">5 - 71</span></li><li><span class="sub">Concept 88</span> <span class="ref">3 - 257</span></li><li><span class="sub">Yara Rules</span> <span class="ref">3 - 246</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Compliance</span><span class="ref">4 - 332</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Cryptography</span><span class="ref">5 - 326</span></div><ul><li><span class="sub">Concept 24</span> <span class="ref">6 - 109</span></li><li><span class="sub">Concept 50</span> <span class="ref">3 - 142</span></li></ul></section>
+<div class="letter-divider" aria-label="Section D">D</div>
+<section class="topic"><div class="topic-head"><span class="sub">Data Execution Prevention</span><span class="ref">1 - 90</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Data Exfiltration</span><span class="ref">2 - 392</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Data Loss Prevention</span><span class="ref">5 - 379</span></div><ul><li><span class="sub">Concept 20</span> <span class="ref">3 - 183</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Disk Forensics</span><span class="ref">1 - 375</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">DLL Injection</span><span class="ref">1 - 143</span></div><ul><li><span class="sub">NTLM</span> <span class="ref">2 - 304</span></li><li><span class="sub">Zombie Process</span> <span class="ref">1 - 190</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Domain Fronting</span><span class="ref">3 - 193</span></div></section>
+<div class="letter-divider" aria-label="Section E">E</div>
+<section class="topic"><div class="topic-head"><span class="sub">EDR</span><span class="ref">5 - 312</span></div><ul><li><span class="sub">Security Architecture</span> <span class="ref">6 - 154</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Email Security</span><span class="ref">5 - 288</span></div><ul><li><span class="sub">Concept 25</span> <span class="ref">3 - 18</span></li><li><span class="sub">Concept 29</span> <span class="ref">1 - 199</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Encryption</span><span class="ref">4 - 235</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Endpoint Detection</span><span class="ref">3 - 177</span></div><ul><li><span class="sub">Authentication</span> <span class="ref">6 - 146</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Environment Variable</span><span class="ref">2 - 361</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Evidence Preservation</span><span class="ref">6 - 68</span></div><ul><li><span class="sub">Concept 62</span> <span class="ref">6 - 28</span></li><li><span class="sub">Concept 87</span> <span class="ref">5 - 163</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Exploit Development</span><span class="ref">3 - 311</span></div></section>
+<div class="letter-divider" aria-label="Section F">F</div>
+<section class="topic"><div class="topic-head"><span class="sub">FDE</span><span class="ref">3 - 255</span></div><ul><li><span class="sub">Concept 49</span> <span class="ref">6 - 273</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">File Carving</span><span class="ref">1 - 75</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">File System</span><span class="ref">5 - 256</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Firewall</span><span class="ref">5 - 133</span></div><ul><li><span class="sub">Concept 46</span> <span class="ref">1 - 110</span></li><li><span class="sub">Concept 6</span> <span class="ref">3 - 178</span></li><li><span class="sub">GPO</span> <span class="ref">1 - 156</span></li><li><span class="sub">Indicator of Compromise</span> <span class="ref">2 - 323</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Firmware</span><span class="ref">6 - 15</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Forensic Imaging</span><span class="ref">2 - 329</span></div><ul><li><span class="sub">Concept 92</span> <span class="ref">3 - 374</span></li><li><span class="sub">Concept 95</span> <span class="ref">4 - 47</span></li></ul></section>
+<div class="letter-divider" aria-label="Section G">G</div>
+<section class="topic"><div class="topic-head"><span class="sub">GPO</span><span class="ref">3 - 345</span></div><ul><li><span class="sub">Concept 97</span> <span class="ref">6 - 187</span></li><li><span class="sub">Indicator of Compromise</span> <span class="ref">6 - 68</span></li></ul></section>
+<div class="letter-divider" aria-label="Section H">H</div>
+<section class="topic"><div class="topic-head"><span class="sub">Hash Collision</span><span class="ref">5 - 76</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Hashing</span><span class="ref">5 - 165</span></div><ul><li><span class="sub">Concept 52</span> <span class="ref">5 - 368</span></li><li><span class="sub">Concept 62</span> <span class="ref">4 - 362</span></li><li><span class="sub">Windows Artifacts</span> <span class="ref">2 - 171</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Hooking</span><span class="ref">6 - 69</span></div><ul><li><span class="sub">Concept 25</span> <span class="ref">4 - 136</span></li><li><span class="sub">Concept 97</span> <span class="ref">6 - 234</span></li><li><span class="sub">SIEM</span> <span class="ref">5 - 5</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Host-Based Analysis</span><span class="ref">6 - 282</span></div><ul><li><span class="sub">Concept 31</span> <span class="ref">4 - 138</span></li><li><span class="sub">Concept 87</span> <span class="ref">3 - 23</span></li></ul></section>
+<div class="letter-divider" aria-label="Section I">I</div>
+<section class="topic"><div class="topic-head"><span class="sub">IDS/IPS</span><span class="ref">4 - 138</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Impersonation</span><span class="ref">5 - 220</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Incident Response</span><span class="ref">3 - 292</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Integrity</span><span class="ref">1 - 283</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Intrusion Detection</span><span class="ref">4 - 63</span></div><ul><li><span class="sub">Concept 12</span> <span class="ref">6 - 52</span></li><li><span class="sub">DNS</span> <span class="ref">5 - 34</span></li><li><span class="sub">Ransomware</span> <span class="ref">2 - 397</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">IOC</span><span class="ref">2 - 200</span></div></section>
+<div class="letter-divider" aria-label="Section J">J</div>
+<section class="topic"><div class="topic-head"><span class="sub">Jailbreaking</span><span class="ref">4 - 379</span></div><ul><li><span class="sub">Concept 97</span> <span class="ref">2 - 204</span></li><li><span class="sub">Encryption</span> <span class="ref">1 - 226</span></li><li><span class="sub">Wireless Security</span> <span class="ref">2 - 135</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Jump List</span><span class="ref">1 - 309</span></div><ul><li><span class="sub">Concept 12</span> <span class="ref">6 - 119</span></li><li><span class="sub">Impersonation</span> <span class="ref">2 - 45</span></li></ul></section>
+<div class="letter-divider" aria-label="Section K">K</div>
+<section class="topic"><div class="topic-head"><span class="sub">Kernel</span><span class="ref">3 - 80</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Kernel Module</span><span class="ref">1 - 158</span></div><ul><li><span class="sub">Concept 29</span> <span class="ref">3 - 237</span></li><li><span class="sub">RAM Analysis</span> <span class="ref">1 - 127</span></li><li><span class="sub">Web Application</span> <span class="ref">1 - 370</span></li><li><span class="sub">XML</span> <span class="ref">3 - 11</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Keylogger</span><span class="ref">3 - 381</span></div><ul><li><span class="sub">Concept 21</span> <span class="ref">6 - 155</span></li><li><span class="sub">Concept 29</span> <span class="ref">2 - 148</span></li></ul></section>
+<div class="letter-divider" aria-label="Section L">L</div>
+<section class="topic"><div class="topic-head"><span class="sub">Lateral Movement</span><span class="ref">2 - 142</span></div><ul><li><span class="sub">Boot Process</span> <span class="ref">1 - 117</span></li><li><span class="sub">Concept 63</span> <span class="ref">5 - 338</span></li><li><span class="sub">Red Team</span> <span class="ref">4 - 81</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Living off the Land</span><span class="ref">4 - 324</span></div><ul><li><span class="sub">USB Artifacts</span> <span class="ref">2 - 309</span></li><li><span class="sub">Virtualization</span> <span class="ref">2 - 137</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">LNK File</span><span class="ref">3 - 371</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Log Analysis</span><span class="ref">3 - 260</span></div></section>
+<div class="letter-divider" aria-label="Section M">M</div>
+<section class="topic"><div class="topic-head"><span class="sub">MAC Address</span><span class="ref">6 - 335</span></div><ul><li><span class="sub">Concept 11</span> <span class="ref">3 - 29</span></li><li><span class="sub">Concept 70</span> <span class="ref">3 - 318</span></li><li><span class="sub">Firmware</span> <span class="ref">1 - 256</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">MFT</span><span class="ref">5 - 188</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">MITRE ATT&amp;CK</span><span class="ref">2 - 105</span></div></section>
+<div class="letter-divider" aria-label="Section N">N</div>
+<section class="topic"><div class="topic-head"><span class="sub">Named Pipe</span><span class="ref">5 - 261</span></div><ul><li><span class="sub">Concept 76</span> <span class="ref">2 - 48</span></li><li><span class="sub">XSS</span> <span class="ref">2 - 299</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Network Forensics</span><span class="ref">3 - 112</span></div></section>
+<div class="letter-divider" aria-label="Section O">O</div>
+<section class="topic"><div class="topic-head"><span class="sub">Obfuscation</span><span class="ref">2 - 289</span></div><ul><li><span class="sub">Active Directory</span> <span class="ref">4 - 43</span></li><li><span class="sub">Brute Force</span> <span class="ref">6 - 226</span></li><li><span class="sub">Concept 2</span> <span class="ref">4 - 277</span></li><li><span class="sub">Concept 36</span> <span class="ref">6 - 100</span></li></ul></section>
+<div class="letter-divider" aria-label="Section P">P</div>
+<section class="topic"><div class="topic-head"><span class="sub">Packet Analysis</span><span class="ref">6 - 292</span></div><ul><li><span class="sub">Concept 14</span> <span class="ref">4 - 96</span></li><li><span class="sub">Concept 34</span> <span class="ref">5 - 65</span></li><li><span class="sub">Concept 55</span> <span class="ref">4 - 200</span></li><li><span class="sub">Password Cracking</span> <span class="ref">4 - 225</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Password Cracking</span><span class="ref">3 - 239</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Patch Management</span><span class="ref">4 - 250</span></div><ul><li><span class="sub">Concept 29</span> <span class="ref">4 - 38</span></li><li><span class="sub">Concept 73</span> <span class="ref">5 - 134</span></li><li><span class="sub">Concept 77</span> <span class="ref">2 - 215</span></li><li><span class="sub">Concept 82</span> <span class="ref">1 - 160</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Persistence Mechanism</span><span class="ref">3 - 27</span></div><ul><li><span class="sub">Concept 36</span> <span class="ref">3 - 71</span></li><li><span class="sub">Concept 63</span> <span class="ref">6 - 95</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Phishing</span><span class="ref">5 - 211</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Privilege Escalation</span><span class="ref">5 - 348</span></div></section>
+<div class="letter-divider" aria-label="Section Q">Q</div>
+<section class="topic"><div class="topic-head"><span class="sub">Quarantine</span><span class="ref">1 - 331</span></div><ul><li><span class="sub">Privilege Escalation</span> <span class="ref">4 - 210</span></li></ul></section>
+<div class="letter-divider" aria-label="Section R">R</div>
+<section class="topic"><div class="topic-head"><span class="sub">Red Team</span><span class="ref">4 - 208</span></div><ul><li><span class="sub">Concept 48</span> <span class="ref">6 - 55</span></li><li><span class="sub">Forensic Imaging</span> <span class="ref">6 - 40</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Registry Analysis</span><span class="ref">1 - 233</span></div><ul><li><span class="sub">DNS</span> <span class="ref">6 - 342</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Risk Assessment</span><span class="ref">4 - 188</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Rootkit</span><span class="ref">2 - 126</span></div></section>
+<div class="letter-divider" aria-label="Section S">S</div>
+<section class="topic"><div class="topic-head"><span class="sub">SAML</span><span class="ref">5 - 234</span></div><ul><li><span class="sub">Concept 80</span> <span class="ref">3 - 346</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Sandbox</span><span class="ref">2 - 71</span></div><ul><li><span class="sub">Scheduled Task</span> <span class="ref">4 - 63</span></li><li><span class="sub">Virtualization</span> <span class="ref">2 - 253</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Scheduled Task</span><span class="ref">2 - 205</span></div><ul><li><span class="sub">Concept 67</span> <span class="ref">3 - 270</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Secure Coding</span><span class="ref">1 - 204</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Social Engineering</span><span class="ref">2 - 127</span></div><ul><li><span class="sub">Concept 91</span> <span class="ref">3 - 354</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Symmetric Encryption</span><span class="ref">3 - 3</span></div></section>
+<div class="letter-divider" aria-label="Section T">T</div>
+<section class="topic"><div class="topic-head"><span class="sub">Threat Hunting</span><span class="ref">1 - 96</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Timeline Analysis</span><span class="ref">5 - 48</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">Token Theft</span><span class="ref">5 - 390</span></div><ul><li><span class="sub">Concept 81</span> <span class="ref">4 - 310</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Trojan</span><span class="ref">3 - 174</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">TTP</span><span class="ref">4 - 5</span></div></section>
+<div class="letter-divider" aria-label="Section U">U</div>
+<section class="topic"><div class="topic-head"><span class="sub">UAC</span><span class="ref">2 - 115</span></div></section>
+<div class="letter-divider" aria-label="Section V">V</div>
+<section class="topic"><div class="topic-head"><span class="sub">Volume Shadow Copy</span><span class="ref">4 - 250</span></div><ul><li><span class="sub">Backup and Recovery</span> <span class="ref">4 - 159</span></li><li><span class="sub">Concept 22</span> <span class="ref">6 - 43</span></li><li><span class="sub">Environment Variable</span> <span class="ref">5 - 366</span></li><li><span class="sub">Vulnerability Assessment</span> <span class="ref">6 - 220</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Vulnerability Assessment</span><span class="ref">5 - 221</span></div><ul><li><span class="sub">Concept 59</span> <span class="ref">1 - 286</span></li><li><span class="sub">Jump List</span> <span class="ref">6 - 204</span></li><li><span class="sub">Password Cracking</span> <span class="ref">6 - 357</span></li></ul></section>
+<div class="letter-divider" aria-label="Section W">W</div>
+<section class="topic"><div class="topic-head"><span class="sub">Web Application</span><span class="ref">1 - 252</span></div><ul><li><span class="sub">Concept 51</span> <span class="ref">3 - 342</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Web Shell</span><span class="ref">2 - 212</span></div><ul><li><span class="sub">Concept 23</span> <span class="ref">4 - 270</span></li><li><span class="sub">Malware Analysis</span> <span class="ref">2 - 315</span></li><li><span class="sub">Network Protocols</span> <span class="ref">3 - 265</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">Windows Artifacts</span><span class="ref">5 - 1</span></div></section>
+<section class="topic"><div class="topic-head"><span class="sub">WMI</span><span class="ref">3 - 188</span></div><ul><li><span class="sub">Concept 23</span> <span class="ref">4 - 213</span></li><li><span class="sub">Digital Forensics</span> <span class="ref">4 - 71</span></li></ul></section>
+<div class="letter-divider" aria-label="Section X">X</div>
+<section class="topic"><div class="topic-head"><span class="sub">XML</span><span class="ref">4 - 9</span></div><ul><li><span class="sub">Boot Process</span> <span class="ref">6 - 117</span></li><li><span class="sub">Concept 3</span> <span class="ref">4 - 289</span></li><li><span class="sub">Concept 31</span> <span class="ref">4 - 373</span></li><li><span class="sub">Concept 83</span> <span class="ref">3 - 134</span></li></ul></section>
+<section class="topic"><div class="topic-head"><span class="sub">XSS</span><span class="ref">6 - 194</span></div></section>
+<div class="letter-divider" aria-label="Section Y">Y</div>
+<section class="topic"><div class="topic-head"><span class="sub">Yara Rules</span><span class="ref">6 - 310</span></div></section>
+<div class="letter-divider" aria-label="Section Z">Z</div>
+<section class="topic"><div class="topic-head"><span class="sub">Zero Trust</span><span class="ref">4 - 338</span></div></section>
+  </div>
+  <p class="footer">Generated by SANS Index Builder. For personal study use.</p>
+</body>
+</html>
